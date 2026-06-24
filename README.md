@@ -1,27 +1,35 @@
 # WebMCP.md
 
-English, agent-facing companion to [webmcp.nl](https://www.webmcp.nl). Same editorial
-design language (Archivo + IBM Plex Mono, electric-blue / mint / amber on warm off-white),
-but rewritten as **instructions for AI agents themselves** — and it sells a complete,
-downloadable **WebMCP Agent Skill** behind a paywall.
+An independent, **informational** explainer of **WebMCP** — the proposed open web standard
+(W3C, by Google & Microsoft) that lets a website expose its functions and forms as structured
+tools AI agents can discover and call **directly in the browser**.
 
-Built on Next.js 16 (App Router) and deployable to Vercel with zero config.
+Built on Next.js 16 (App Router) + Tailwind v4. Deployable to Vercel with zero config.
+Dark "cosmic void" design system. No accounts, no payments — purely informational.
 
 ## What's here
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Landing page: hero + interactive demo card, the concept, the 4-step agent protocol, the Skill, pricing/paywall, a live self-demo console, CTA, footer |
-| `/skill` | Plain-language WebMCP documentation written for agents |
-| `/download?session_id=…` | Post-payment page; verifies the session and unlocks the download |
-| `/api/checkout` | Creates a Stripe Checkout session (or a demo session) |
-| `/api/download` | **Gated** stream of the Agent Skill — only after a verified payment |
-| `/api/mcp` | This site's own live WebMCP tools (`GET` manifest, `POST` to call) |
-| `/.well-known/web-mcp` | WebMCP discovery document agents fetch |
+| `/` | Hero, interactive sector use-cases (run real tool examples), what WebMCP is, the agent protocol, FAQ |
+| `/skill` | Plain-language agent documentation: the in-browser protocol + links to the official spec |
+| `/about` | Placeholder portfolio block (noindex until filled) |
+| `/api/mcp`, `/.well-known/web-mcp` | An **optional server-side mirror** of a few info tools for headless testing — **not** part of the WebMCP spec |
 | `/llms.txt`, `/sitemap.xml`, `/robots.txt` | Machine-readable + SEO |
 
-The paywalled product (`src/lib/skill-bundle.ts`) lives server-side and is **never** placed
-in `/public`, so it can't be fetched without purchase.
+## The real WebMCP mechanism (what the site teaches)
+
+WebMCP is an **in-browser API**, not a `/.well-known` + REST model:
+
+- **Imperative:** `document.modelContext.registerTool({ name, description, inputSchema, execute })`
+- **Declarative:** annotate an HTML form with `toolname` / `tooldescription`
+
+An in-browser agent discovers the tools the page registered (`getTools()`), reads each tool's
+JSON-Schema `inputSchema`, and calls it (`executeTool()`); the browser runs it visibly.
+**Status:** W3C Draft Community Group Report (under incubation) · Chrome 149 origin trial.
+
+The official documentation is mirrored verbatim under `docs/webmcp-spec/` (W3C + Chrome docs,
+under their respective licenses), and the canonical sources are linked throughout the site.
 
 ## Run locally
 
@@ -30,33 +38,24 @@ npm install
 npm run dev      # http://localhost:3000
 ```
 
-With no `STRIPE_SECRET_KEY`, the site runs in **demo mode**: the full purchase → download
-flow works end-to-end without charging, so you can click through it immediately.
-
-## Payments
-
-Default provider is **Stripe Checkout**, called via REST (no SDK dependency). To go live:
-
-```bash
-cp .env.example .env.local
-# set STRIPE_SECRET_KEY=sk_live_...   (or sk_test_...)
-```
-
-To switch providers (Lemon Squeezy, Gumroad, Polar), reimplement the two functions in
-`src/lib/payments.ts` — nothing else in the app touches the provider.
+`npm run build` for the production build; `npm run lint` / `npm run check` to verify.
 
 ## Deploy to Vercel
 
-1. Push this repo to GitHub.
-2. Import it in Vercel (framework auto-detected as Next.js — no config needed).
-3. Add the env var: `vercel env add STRIPE_SECRET_KEY` (Production + Preview).
-4. Point `www.webmcp.md` at the project in **Settings → Domains**.
-
-`npm run build` is the build command; the App Router route map above is what gets deployed.
+Push to GitHub and import the repo in Vercel — the framework is auto-detected (Next.js), no
+configuration or environment variables required.
 
 ## Customize
 
-- Copy & product: `src/lib/site.ts`
-- The downloadable skill: `src/lib/skill-bundle.ts`
+- Copy & content: `src/lib/site.ts`
+- Sector use-cases (the interactive tools): `SECTOR_USECASES` in `src/lib/site.ts`
+- FAQ (feeds both the visible section and the FAQPage JSON-LD): `FAQ` in `src/lib/site.ts`
 - Design tokens: `src/app/globals.css`
-- Sections: `src/components/`
+- Structured data: `src/lib/seo/jsonLd.ts`
+- SEO working docs & PRD: `docs/seo/`
+
+## Project notes
+
+- `docs/webmcp-spec/` — the official WebMCP docs, mirrored word-for-word for accuracy.
+- `docs/seo/` — SEO/AEO audits + the implementation PRD.
+- `.claude/agents/` — a small SEO-agent squad scoped to this project.
