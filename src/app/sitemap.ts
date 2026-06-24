@@ -9,6 +9,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: `${BASE}/`, lastModified: LAST_MODIFIED, changeFrequency: "weekly", priority: 1 },
     { url: `${BASE}/skill`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.8 },
-    // /about is noindex (placeholder) — intentionally omitted until it has real content.
+    { url: `${BASE}/about`, lastModified: LAST_MODIFIED, changeFrequency: "monthly", priority: 0.5 },
   ];
 }

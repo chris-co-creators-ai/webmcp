@@ -1,10 +1,8 @@
-import Link from "next/link";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-// Glassmorphism portfolio block — brand-aligned placeholder for the /about page.
-// Swap for the 21st.dev `glassmorphism-portfolio-block-shadcnui` registry item
-// once authenticated; this mirrors its shape so content carries over.
+// Glassmorphism portfolio block for the /about page — real info about the
+// person behind WebMCP.md (Christian Bleeker).
 
 function Glass({ className, children }: { className?: string; children: ReactNode }) {
   return (
@@ -20,14 +18,45 @@ function Glass({ className, children }: { className?: string; children: ReactNod
   );
 }
 
-const PROJECTS = [
-  { title: "Project One", desc: "Short description of what you built and the outcome." },
-  { title: "Project Two", desc: "Short description of what you built and the outcome." },
-  { title: "Project Three", desc: "Short description of what you built and the outcome." },
-  { title: "Project Four", desc: "Short description of what you built and the outcome." },
+const LINKS = [
+  { label: "Website", href: "https://www.christianbleeker.com" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/christianbleeker/" },
+  { label: "Co-Creatie.ai", href: "https://www.co-creatie.ai" },
+  { label: "Soulcreator.ai", href: "https://www.soulcreator.ai" },
 ];
 
-const SKILLS = ["WebMCP", "Next.js", "TypeScript", "AI agents", "Design systems", "Vercel"];
+const THEMES = [
+  "Human–AI partnership",
+  "Persistent AI identity",
+  "Claude & agent design",
+  "AI strategy",
+  "Co-creation",
+  "Cognitive science",
+];
+
+const VENTURES = [
+  {
+    tag: "Venture",
+    title: "Co-Creatie.ai",
+    desc: "Personalized AI partners for entrepreneurs — bespoke Claude instances that act as a contextual business advisor, running locally with persistent memory and their own voice.",
+    href: "https://www.co-creatie.ai",
+    cta: "Visit",
+  },
+  {
+    tag: "Open source",
+    title: "Soulcreator.ai",
+    desc: "An open-source (MIT) framework that gives AI a stable identity across conversations — a three-layer behavioral architecture of values, voice and adaptive mission, grounded in cognitive science.",
+    href: "https://www.soulcreator.ai",
+    cta: "Visit",
+  },
+  {
+    tag: "TEDxEindhoven",
+    title: "Traveling through time together with AI",
+    desc: "My TEDx talk on how people and AI can grow together — each strong where the other is weak.",
+    href: "https://www.youtube.com/watch?v=eOZOeLhRdcs&t=344s",
+    cta: "Watch",
+  },
+];
 
 export function GlassmorphismPortfolio() {
   return (
@@ -35,59 +64,69 @@ export function GlassmorphismPortfolio() {
       {/* Identity card */}
       <Glass className="md:col-span-1">
         <div className="flex h-20 w-20 items-center justify-center rounded-full border border-white/15 bg-white/[0.04]">
-          <span className="text-heading text-foreground">{"—"}</span>
+          <span className="text-heading text-foreground">CB</span>
         </div>
-        <h2 className="text-heading mt-6 text-foreground">Your Name</h2>
-        <p className="mono-badge mt-2 text-ash">[ Your role / title ]</p>
+        <h2 className="text-heading mt-6 text-foreground">Christian Bleeker</h2>
+        <p className="mono-badge mt-2 text-ash">[ AI Partner Creator · TEDx Speaker ]</p>
         <p className="text-body mt-4 text-ash">
-          A short bio goes here — who you are, what you build, and what you care about. Replace
-          this placeholder with your own words.
+          From Nijmegen, I build lasting partnerships between people and AI — helping founders
+          move past disposable AI tools toward partners that keep their context, write in their
+          voice, and grow with them.
         </p>
         <div className="mt-6 flex flex-wrap gap-2">
-          {["Email", "GitHub", "X", "LinkedIn"].map((s) => (
-            <Link
-              key={s}
-              href="#"
+          {LINKS.map((s) => (
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className="rounded-full border border-white/15 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-ash transition-colors hover:text-foreground"
             >
-              {s}
-            </Link>
+              {s.label}
+            </a>
           ))}
         </div>
       </Glass>
 
-      {/* About + skills */}
+      {/* About + themes */}
       <Glass className="md:col-span-2">
         <p className="mono-badge text-ash">[ About ]</p>
-        <h3 className="text-heading-lg mt-4 text-foreground">A bit about me</h3>
+        <h3 className="text-heading-lg mt-4 text-foreground">One shift: tool → partner</h3>
         <p className="text-body-lg mt-5 text-ash">
-          Use this space to introduce yourself in more depth — your background, what you&apos;re
-          working on now, and why WebMCP. This whole block is a placeholder you can fill in later.
+          My work is about a single shift — from AI as a tool you forget the moment you close
+          the window, to AI as a partner that knows you better tomorrow than today. Through
+          Co-Creatie.ai I design personalized AI partners for entrepreneurs; through the
+          open-source Soulcreator framework I give AI systems a stable, persistent identity.
+          Living with aphantasia and inspired by science-fiction writers like Asimov, Dick,
+          Adams and Herbert, I&apos;m fascinated by how humans and machines complement each
+          other — and I shared that on the TEDxEindhoven stage.
         </p>
         <div className="mt-7 flex flex-wrap gap-2">
-          {SKILLS.map((s) => (
+          {THEMES.map((t) => (
             <span
-              key={s}
+              key={t}
               className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-body text-foreground"
             >
-              {s}
+              {t}
             </span>
           ))}
         </div>
       </Glass>
 
-      {/* Project grid */}
-      {PROJECTS.map((p) => (
+      {/* Venture cards */}
+      {VENTURES.map((p) => (
         <Glass key={p.title} className="md:col-span-1">
-          <p className="mono-badge text-ash">[ Project ]</p>
+          <p className="mono-badge text-ash">[ {p.tag} ]</p>
           <h4 className="text-body-lg mt-3 text-foreground">{p.title}</h4>
           <p className="text-body mt-2 text-ash">{p.desc}</p>
-          <Link
-            href="#"
+          <a
+            href={p.href}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mono-badge mt-5 inline-block normal-case text-ash transition-colors hover:text-foreground"
           >
-            View →
-          </Link>
+            {p.cta} →
+          </a>
         </Glass>
       ))}
     </div>
