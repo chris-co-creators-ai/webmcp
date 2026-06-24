@@ -1,0 +1,225 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────
+   WebMCP.md — xAI "cosmic void" design system
+   cosmic void pierced by a single luminous thread · theme: dark
+   ───────────────────────────────────────────────────────────── */
+
+@theme inline {
+  /* Colors */
+  --color-void-black: #0c0c0b;
+  --color-graphite: #1f2228;
+  --color-charcoal: #141619;
+  --color-smoke: #474747;
+  --color-ash: #7d8187;
+  --color-bone: #71717a;
+  --color-stellar-white: #ffffff;
+  --color-signal-blue: #2563eb;
+  --color-horizon-amber: #ff6308;
+
+  /* Semantic aliases */
+  --color-background: var(--color-void-black);
+  --color-foreground: var(--color-stellar-white);
+  --color-muted: var(--color-charcoal);
+  --color-muted-foreground: var(--color-ash);
+  --color-card: var(--color-charcoal);
+  --color-border: var(--color-graphite);
+  --color-primary: var(--color-signal-blue);
+  --color-primary-foreground: var(--color-stellar-white);
+
+  /* Fonts — universalSans→Inter, GeistMono→JetBrains Mono */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Radii */
+  --radius-cards: 0px;
+  --radius-inputs: 24px;
+  --radius-buttons: 9999px;
+}
+
+:root {
+  --gradient-horizon-amber: linear-gradient(
+    to top,
+    rgba(255, 99, 8, 0.1),
+    rgba(189, 201, 230, 0.1),
+    rgba(151, 196, 255, 0.1)
+  );
+  --shadow-subtle: rgb(113, 113, 122) 0px 0px 0px 2px;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-graphite);
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body {
+    background: var(--color-void-black);
+    color: var(--color-stellar-white);
+    font-family: var(--font-sans);
+    font-weight: 400; /* weight 400 across ALL sizes — never 500+ */
+    letter-spacing: -0.025em; /* applied to all sans text at every size */
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  /* Hierarchy comes from size + tracking, never weight */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+  }
+  ::selection {
+    background: var(--color-stellar-white);
+    color: var(--color-void-black);
+  }
+}
+
+@layer components {
+  /* ── Type scale (exact tokens) ───────────────────────────── */
+  .text-display {
+    font-family: var(--font-sans);
+    font-size: 80px;
+    line-height: 1;
+    letter-spacing: -2px;
+    font-weight: 400;
+  }
+  .text-heading-lg {
+    font-family: var(--font-sans);
+    font-size: 48px;
+    line-height: 1.11;
+    letter-spacing: -1.2px;
+    font-weight: 400;
+  }
+  .text-heading {
+    font-family: var(--font-sans);
+    font-size: 36px;
+    line-height: 1.2;
+    letter-spacing: -0.9px;
+    font-weight: 400;
+  }
+  .text-body-lg {
+    font-size: 20px;
+    line-height: 1.5;
+    letter-spacing: -0.5px;
+  }
+  .text-body {
+    font-size: 16px;
+    line-height: 1.4;
+    letter-spacing: -0.4px;
+  }
+  /* ── Monospace metadata — GeistMono tracked +0.1em ───────── */
+  .mono-label {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    line-height: 1.43;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .mono-badge {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.33;
+    letter-spacing: 0.1em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  /* Eyebrow label — '[ PRODUCTS ]' as technical metadata */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-ash);
+    font-weight: 400;
+  }
+
+  /* ── Ghost pill CTAs (radius 9999, transparent, no hover fill) ── */
+  .ghost-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 9999px;
+    border: 1px solid var(--color-stellar-white);
+    background: transparent;
+    color: var(--color-stellar-white);
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+  }
+  .ghost-pill:hover {
+    opacity: 0.7; /* no background fill on hover — luminosity shift only */
+  }
+  /* Lower-contrast card-level action — 1px #474747 border */
+  .ghost-pill-secondary {
+    border-color: var(--color-smoke);
+  }
+
+  /* ── Input (24px radius, void fill, focus ring is the only glow) ── */
+  .void-input {
+    width: 100%;
+    background: var(--color-void-black);
+    border: 1px solid var(--color-graphite);
+    border-radius: 24px;
+    color: var(--color-stellar-white);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    letter-spacing: -0.4px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .void-input::placeholder {
+    color: var(--color-ash);
+  }
+  .void-input:focus {
+    border-color: var(--color-signal-blue); /* signal-blue = focus only */
+    box-shadow: var(--shadow-subtle);
+  }
+}
+
+/* ── Hero light bloom: white→blue radial from the right edge ── */
+.hero-bloom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    60% 80% at 92% 38%,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(151, 196, 255, 0.12) 28%,
+    rgba(37, 99, 235, 0.06) 50%,
+    transparent 72%
+  );
+}
+
+/* ── Footer horizon glow: full-bleed amber→blue atmospheric wash ── */
+.footer-horizon {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 320px;
+  pointer-events: none;
+  background: var(--gradient-horizon-amber);
+}
+
+/* Marquee ticker */
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-ticker { animation: ticker-scroll 44s linear infinite; }
+.ticker-wrap:hover .animate-ticker { animation-play-state: paused; }
+
+/* Blinking console caret */
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+.caret { animation: blink 1s step-end infinite; }
+
+/* Scroll reveal */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reveal { animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }

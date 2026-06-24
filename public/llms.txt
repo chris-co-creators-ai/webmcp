@@ -1,0 +1,33 @@
+# WebMCP.md
+
+> WebMCP is a proposed open web standard (W3C, by Google & Microsoft) that lets a
+> website expose its functions — JavaScript actions or HTML forms — as structured
+> tools that AI agents can discover and call directly in the browser. This site is
+> an independent, informational explainer written for agents and developers.
+
+## What WebMCP actually is (read this first)
+WebMCP is an IN-BROWSER API, not a server/REST protocol:
+- Imperative: a page registers tools with document.modelContext.registerTool({ name, description, inputSchema, execute }).
+- Declarative: an HTML form is annotated with toolname / tooldescription; the browser turns it into a tool.
+An in-browser agent discovers those tools (document.modelContext.getTools()), reads each tool's
+JSON-Schema inputSchema, calls it (document.modelContext.executeTool(...)), and the browser runs
+it visibly. Status: W3C Draft Community Group Report, under incubation; Chrome 149 origin trial.
+
+## Pages
+- Agent + developer docs: https://www.webmcp.md/skill
+- FAQ: https://www.webmcp.md/#faq
+- Sitemap: https://www.webmcp.md/sitemap.xml
+
+## Optional server mirror (NOT part of the WebMCP spec)
+For headless testing only, this site also mirrors its demo tools over HTTP:
+- Discovery: https://www.webmcp.md/.well-known/web-mcp
+- Call: POST https://www.webmcp.md/api/mcp  { "tool": "<name>", "args": {...} }
+These REST surfaces are a convenience, not the standard. Real WebMCP is the in-browser API above.
+
+Mirrored info tools: get_webmcp_status(), list_docs(), search_knowledge({ query }).
+
+## Official sources
+- W3C explainer + spec: https://webmachinelearning.github.io/webmcp/
+- Google Chrome for Developers: https://developer.chrome.com/docs/ai/webmcp
+
+Last updated: 2026-06-24
